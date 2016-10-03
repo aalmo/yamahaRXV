@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Yamaharxv by aalmo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Yamaharxv</h1>
+      <h2 class="project-tagline">Yamaha Network Receiver - JAVA API</h2>
+      <a href="https://github.com/aalmo/yamahaRXV" class="btn">View on GitHub</a>
+      <a href="https://github.com/aalmo/yamahaRXV/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/aalmo/yamahaRXV/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="yamaha-network-receiver---java-api" class="anchor" href="#yamaha-network-receiver---java-api" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Yamaha Network Receiver - JAVA API</h1>
+
+<h1>
+<a id="about" class="anchor" href="#about" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>About</h1>
+
+<p>This is a java plugin implementation, which allows you to control Yamaha AV Receivers over IP. </p>
+
+<h1>
+<a id="tested-models" class="anchor" href="#tested-models" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Tested Models</h1>
+
+<p>RX-V473 [working]</p>
+
+<h1>
+<a id="supported-models" class="anchor" href="#supported-models" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Supported Models</h1>
+
+<p>normally, any Yamaha RX-Vxxx models are supported.</p>
+
+<h1>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h1>
+
+<p>In the target folder, you have two jars:</p>
+
+<ul>
+<li>The yamaha.rxv-V1.0-SNAPSHOT-jar-with-dependencies.jar: This includes all the dependencies you need to get started</li>
+<li>The yamaha.rxv-V1.0-SNAPSHOT.jar: This one does not include all the depedencies. You have to add them yourself using the following maven dependencies</li>
+</ul>
+
+<pre><code>&lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.jvnet.jaxb2_commons&lt;/groupId&gt;
+            &lt;artifactId&gt;jaxb2-basics-runtime&lt;/artifactId&gt;
+            &lt;version&gt;0.6.4&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;log4j&lt;/groupId&gt;
+            &lt;artifactId&gt;log4j&lt;/artifactId&gt;
+            &lt;version&gt;1.2.17&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;commons-httpclient&lt;/groupId&gt;
+            &lt;artifactId&gt;commons-httpclient&lt;/artifactId&gt;
+            &lt;version&gt;3.1&lt;/version&gt;
+        &lt;/dependency&gt;
+&lt;/dependencies&gt;
+</code></pre>
+
+<p>in the ressources folder, please add the following property fieles</p>
+
+<ul>
+<li>yamaha.properties</li>
+<li>log4j.properties</li>
+</ul>
+
+<p>You will finde an example of these properties in the ressources folder. Now add one of these jars to your project lib and start working :)</p>
+
+<h1>
+<a id="supported-functionality" class="anchor" href="#supported-functionality" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Supported Functionality</h1>
+
+<ul>
+<li>Volume Control</li>
+<li>Power Control</li>
+<li>Input Control</li>
+<li>Surround Control</li>
+<li>Sound Video Control</li>
+<li>View Reciever Status</li>
+</ul>
+
+<h1>
+<a id="planned-functionality" class="anchor" href="#planned-functionality" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Planned Functionality</h1>
+
+<ul>
+<li>Tuner Control</li>
+<li>System Setting View</li>
+<li>Partly System Setting Control</li>
+</ul>
+
+<h1>
+<a id="how-to-use-the-api" class="anchor" href="#how-to-use-the-api" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How to use the API</h1>
+
+<p>In order to get the Reciever Status</p>
+
+<pre><code>ObjectFactory factory = new ObjectFactory();
+YAMAHAAV yamahaav = factory.getRecieverStatus();
+</code></pre>
+
+<p>To make mutltiple changes and submit them at once </p>
+
+<pre><code>yamahaav.getMainZone().getPowerControl().setPower(YAMAHACMD.POWER.ON);
+yamahaav.getMainZone().getSurround().set3DCinemaDSP(YAMAHACMD.SOUNDPROGRAM.CINEMADSP_AUTO);
+yamahaav.getMainZone().getVolume().setMute(YAMAHACMD.VOLUME.MUTE_OFF);
+factory.updateReciever(yamahaav);
+</code></pre>
+
+<p>To create new objects and make changes to certain elements </p>
+
+<pre><code>ObjectFactory factory = new ObjectFactory();
+YAMAHAAV yamahaav = factory.createRoot();
+PowerControl control = factory.createYAMAHAAVMainZonePowerControl();
+control.setPower(YAMAHACMD.POWER.ON);
+yamahaav.getMainZone().setPowerControl(control);
+factory.updateRecieverProperty(yamahaav);
+</code></pre>
+
+<p>When creating a new yamaha structure, put in mind, that you have to maintain the following XML structure. The same applies to every main block.</p>
+
+<pre><code>&lt;YAMAHA_AV rsp="GET" RC="0" cmd="PUT"&gt;
+    &lt;Main_Zone&gt;
+        &lt;Basic_Status&gt;GetParam&lt;/Basic_Status&gt;
+        &lt;Power_Control&gt;
+            &lt;Power&gt;Standby&lt;/Power&gt;
+            &lt;Sleep&gt;Off&lt;/Sleep&gt;
+        &lt;/Power_Control&gt;
+    &lt;/Main_Zone&gt;
+&lt;/YAMAHA_AV&gt;
+</code></pre>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/aalmo/yamahaRXV">Yamaharxv</a> is maintained by <a href="https://github.com/aalmo">aalmo</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
