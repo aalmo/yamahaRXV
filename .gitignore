@@ -1,0 +1,6 @@
+/target/classes/
+/docs/
+/.settings/
+/.classpath
+/.project
+/params.json
