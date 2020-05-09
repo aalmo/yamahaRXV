@@ -1,0 +1,8 @@
+title: Yamaharxv
+description: Yamaha Network Receiver - JAVA API
+google_analytics: 
+show_downloads: true
+theme: jekyll-theme-cayman
+
+gems:
+  - jekyll-mentions
